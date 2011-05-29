@@ -1,7 +1,6 @@
 AS=nasm
 AFLAGS=-felf
-start.o:
-		$(AS) $(AFLAGS) start.asm
-
+start.o: start.asm
+	$(AS) $(AFLAGS) start.asm
 clean:
 	rm -f *.o
