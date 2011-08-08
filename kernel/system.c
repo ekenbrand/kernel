@@ -1,6 +1,12 @@
+/*
+This code is public domain (no copyright).
+*/
 #include <system.h>
 
-/*Copia una cantidad count de memoria a partir de la posicion dest desde la posicion src.Estas posiciones no deben superponerse*/
+/*
+Copia una cantidad count de memoria a partir de la posicion dest desde la 
+posicion src. Estas posiciones no deben superponerse
+*/
 unsigned char *memcpy(void *dest, const void *src, size_t count)
 {
     for(int i = 0; i < count; i++)
@@ -8,7 +14,10 @@ unsigned char *memcpy(void *dest, const void *src, size_t count)
     return dest;
 }
 
-/*Cambia el valor de la memoria desde la posicion dest hasta dest+count por el valor val*/
+/*
+Cambia el valor de la memoria desde la posicion dest hasta dest+count por el 
+valor val
+*/
 unsigned char *memset(void *dest, int val, size_t count)
 {
     char *temp = (char *)dest;
@@ -17,16 +26,20 @@ unsigned char *memset(void *dest, int val, size_t count)
     return dest;
 }
 
-/*Igual a la anterior solo que para 16-bits*/
-unsigned short *memsetw(unsigned short *dest, unsigned short val, size_t count)
+/*
+Igual a la anterior pero solo para 16-bits
+*/
+unsigned short *memsetw(void *dest, uint16_t val, size_t count)
 {
     for(int i = 0; i < count; i++)
-    	*(dest + i) = val;
+    	*((uint16_t *)dest + i) = val;
     return dest;
 }
 
-/*Devuelve la cantidad de bytes que hay desde la posicion str hasta que 
-encuentre un '/0'. En otras palabras el largo de la cadena*/
+/*
+Devuelve la cantidad de bytes que hay desde la posicion str hasta que 
+encuentre un '/0'. En otras palabras el largo de la cadena
+*/
 size_t strlen(const char *str)
 {
 	size_t count;
@@ -34,17 +47,22 @@ size_t strlen(const char *str)
 	return count;
 }
 
-/*Lee un byte desde el puerto _port*/
-unsigned char inportb (unsigned short _port)
+/*
+Lee un byte desde el puerto _port
+*/
+uint8_t inport(uint16_t _port)
 {
-    unsigned char rv;
-    __asm__ __volatile__ ("inb %1, %0" : "=a" (rv) : "dN" (_port));
+    uint8_t rv;
+    __asm__ __volatile__ ("in %%dx, %%al" : "=a" (rv) : "d" (_port));
     return rv;
 }
 
-/*Escribe al puerto _port el byte _data*/
-void outportb (unsigned short _port, unsigned char _data)
+/*
+Escribe al puerto _port el byte _data
+*/
+void outport(uint16_t _port, uint8_t _data)
 {
-    __asm__ __volatile__ ("outb %1, %0" : : "dN" (_port), "a" (_data));
+    __asm__ __volatile__ ("out %%al, %%dx" : : "a" (_data), "d" (_port));
 }
+
 
